@@ -1,8 +1,8 @@
-const webpack = require('webpack')
-const axios = require('axios')
-const isProd = process.env.NODE_ENV === 'production'
-const apiUrl = isProd ? 'https://gravurechannel.com:3000' : 'http://localhost:3000'
-const rootUrl = isProd ? 'https://gravurechannel.com' : 'http://localhost:8080'
+const webpack = require('webpack');
+const axios = require('axios');
+const isProd = process.env.NODE_ENV === 'production';
+const apiUrl = 'http://api.shanttiy-blog.com/wp-json/wp/v2/';
+const rootUrl = isProd ? 'https://gravurechannel.com' : 'http://localhost:3000';
 
 module.exports = {
   head: {
@@ -48,6 +48,9 @@ module.exports = {
     }],
     ['@nuxtjs/moment', ['ja', 'zh-cn']],
     'nuxt-sass-resources-loader',
+  ],
+  plugins: [
+    '@/plugins/sanitize-html'
   ],
   sassResources: [
     '@/assets/stylesheets/_reset.scss',

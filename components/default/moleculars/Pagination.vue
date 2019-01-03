@@ -1,16 +1,47 @@
 <template>
   <ul class="pagination">
-    <li class="left"><a><i class="fa fa-angle-left" />前のページへ</a></li>
-    <li class="right"><a>次のページへ<i class="fa fa-angle-right" /></a></li>
+    <li
+      v-if="pageNumber > 1"
+      class="left"
+      @click="changePageNumber(pageNumber - 1)"
+    >
+      <span><i class="fa fa-angle-left" />前のページへ</span>
+    </li>
+    <li
+      v-if="pageNumber < pageTotal"
+      class="right"
+      @click="changePageNumber(pageNumber + 1)"
+    >
+      <span>次のページへ<i class="fa fa-angle-right" /></span>
+    </li>
   </ul>
 </template>
 
 <script>
   import Vue from 'vue';
+  import { mapState, mapActions } from 'vuex';
   
   export default Vue.extend({
-    components: {
-      
+    methods: {
+      ...mapActions({
+        initializePostList: 'posts/initializePostList'
+      }),
+      async changePageNumber(page) {
+        await this.initializePostList({page: page});
+        this.$router.push({ query: { page: page } });
+      }
+    },
+    computed: {
+      ...mapState({
+        total: state => state.posts.total
+      }),
+      pageTotal() {
+        const num = Math.ceil(this.total / 10)
+        return num === 0 ? 1 : num
+      },
+      pageNumber(){
+        return this.$route.query['page'] || 1
+      }
     }
   });
 </script>
@@ -38,7 +69,7 @@
       }
     }
 
-    a {
+    span {
       font-size: 13px;
       &:hover {
         cursor: pointer;

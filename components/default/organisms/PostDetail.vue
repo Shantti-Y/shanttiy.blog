@@ -1,79 +1,18 @@
 <template>
   <div class="post-detail">
     <div class="post-header">
-      <h1>まともなコードが書けるエンジニアならどこでも海外移住できるという単純な理由</h1>
-      <blog-item-list />
-      <tag-list />
+      <h1>{{ post.title.rendered }}</h1>
+      <blog-item-list :post="post" />
+      <tag-list :post="post" />
       <social-button-list />
     </div>
-    <div class="post-content">
-      <h2>見出しというのはあれだね、どうして小さすぎて読めないことを考慮しないんだ</h2>
-      <h3>見出しというのはあれだね、どうして小さすぎて読めないことを考慮しないんだ</h3>
-      <h4>見出しというのはあれだね、どうして小さすぎて読めないことを考慮しないんだ</h4>
-      <h5>見出しというのはあれだね、どうして小さすぎて読めないことを考慮しないんだ</h5>
-      <h6>見出しというのはあれだね、どうして小さすぎて読めないことを考慮しないんだ</h6>
-      <p>
-        まずちゃんとウェブサービスをスケールさせている人達の中に「１発当てた」なんて人は絶対に居ない。それは不断の努力と度重なる失敗に続く失敗の中で改善を繰り返して到達したのは明らかだ。それを端から眺めて「俺も１発当たらないかなー」なんて、そうして本気でウェブサービスに取り組んでいる方達に対してあまりにも失礼だ。
-      </p>
-      <p>で、そのイバンカがスマフォを見てクスっと笑った。一体ナニに対してイバンカが笑ったのかは知らない。でもその時「そうだ。俺もそういう誰かを笑顔にするサービスを作ろう」と思った。データベースをチューニングして何ms速くしたところで一体なんだというんだ。究極的には誰かを笑顔にしなければ、わざわざやる意味がない。それがイバンカである必要なんてないし、女である必要もない。別に私のウェブアプリのユーザーがむさ苦しいヲタクの男であっても大歓迎だ。ヲタク野郎好きだし。</p>
-      <p>
-        スマホアプリ開発をしている
-        <em>そこのお前！</em>うるさいぞ
-      </p>
-      <p>
-        アンドロイド開発をしているのは誰だ！
-        <strong>ヤバいサラリーマン「</strong>殺す」
-      </p>
-      <p>
-        どうして
-        <del>僕らは</del>ヤバいサラリーマン「殺す」
-      </p>
-      
-      <ol>
-        <li>あいつはどうしようもない</li>
-        <li>あいつはどうしようもない</li>
-        <li>あいつはどうしようもない</li>
-      </ol>
-      <ul>
-        <li>あいつはどうしようもない</li>
-        <li>あいつはどうしようもない</li>
-        <li>あいつはどうしようもない</li>
-        <li>あいつはどうしようもない</li>
-      </ul>
-      <a href="">現場でバリバリコードを書くことのしんどさを教えてくれ</a>
-      <img :src="require('@/assets/images/art1.jpg')" alt="">
-      <pre>
-        <code>
-          def fxxk_you
-            puts "I kill you!!"
-          end
-        </code>
-      </pre>
-      <table>
-        <thead>
-          <tr>
-            <th>web</th>
-            <th>vue js</th>
-            <th>react</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>使いやすい</td>
-            <td>おい</td>
-            <td>ザコシショウ</td>
-          </tr>
-        </tbody>
-      </table>
-      <blockquote>
-        <p>そんしそんしでなかれ、うるせえ！</p>
-      </blockquote>
-      <hr/>
+    <div class="post-content" v-html="sanitizedHTML">
     </div>
-    <div class="social-button-list-bottom">
+    <div class="post-footer">
+      <blog-item-list :post="post" />
+      <tag-list :post="post" />
       <social-button-list />
     </div>
-    
   </div>
 </template>
 
@@ -84,10 +23,24 @@
   import SocialButtonList from '@/components/default/moleculars/SocialButtonList.vue';
   
   export default Vue.extend({
+    props: {
+      post: {
+        type: Object,
+        required: true
+      }
+    },
     components: {
       BlogItemList,
       TagList,
       SocialButtonList
+    },
+    computed: {
+      sanitizedHTML(){
+        return this.$sanitize(
+          this.post.content.rendered,
+          { allowedTags: this.$sanitize.defaults.allowedTags.concat(['h2']) }
+        )
+      }
     }
   });
 </script>
@@ -96,8 +49,9 @@
   .post-detail {
     margin: 15px;
     border-bottom: 1px solid $border;
-    .post-header {
+    .post-header, .post-footer {
       h1 {
+        word-break: break-all;
         font-size: 25px;
         font-weight: bold;
         padding-bottom: 12px;
@@ -112,7 +66,7 @@
         }
       }
     }
-    .post-content {
+    /deep/ .post-content {
       margin: 55px 0 30px 0;
       h2, h3, h4, h5, h6 {
         margin-bottom: 14px;
@@ -206,9 +160,6 @@
 
       hr {
       }
-    }
-    .social-button-list-bottom {
-      margin: 18px 0 20px 0;
     }
   }
 </style>

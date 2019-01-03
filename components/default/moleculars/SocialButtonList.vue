@@ -13,7 +13,7 @@
       <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label-counter" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
     </li>
     <li>
-      <div class="fb-share-button" data-href="http://blog.yuhiisk.com/" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fblog.yuhiisk.com%2F&src=sdkpreparse">シェア</a></div>
+      <div class="fb-share-button" :data-href="pageUrl" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" :href="`https://www.facebook.com/sharer/sharer.php?u=${escapedPageUrl}&src=sdkpreparse`">シェア</a></div>
     </li>
     <li>
       <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a>
@@ -26,7 +26,19 @@
   import Vue from 'vue';
   
   export default Vue.extend({
-    components: {
+    props: {
+      post: {
+        type: Object,
+        required: true
+      }
+    },
+    computed: {
+      pageUrl(){
+        return `${process.env.rootUrl}${this.$route.path}`;
+      },
+      escapedPageUrl(){
+        return escape(`${process.env.rootUrl}${this.$route.path}`);
+      }
     }
   });
 </script>

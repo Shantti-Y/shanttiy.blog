@@ -1,29 +1,43 @@
 <template>
   <article class="post">
     <div class="post-header">
-      <a href="">
-        <div class="post-thumbnail">
-          <img :src="require('@/assets/images/art1.jpg')" alt="記事1">
-        </div>
-        <p>あんなものこんなもの開発しました。←それってただ勉強のために作ったガラクタで人に見せる気ないんでしょ？</p>
-      </a>
+      <nuxt-link :to="`/posts/${post.id}`">
+        <post-thumbnail :thumbnailUrl="post.jetpack_featured_media_url" />
+        <p>{{ post.title.rendered }}</p>
+      </nuxt-link>
     </div>
     <div class="post-body">
-      <blog-item-list />
-      <tag-list />
+      <blog-item-list :post="post" />
+      <tag-list :post="post" />
     </div>
   </article>
 </template>
 
 <script>
   import Vue from 'vue';
+  import PostThumbnail from '@/components/default/atoms/PostThumbnail.vue';
   import BlogItemList from '@/components/default/moleculars/BlogItemList.vue';
   import TagList from '@/components/default/moleculars/TagList.vue';
   
   export default Vue.extend({
+    props: {
+      post: {
+        type: Object,
+        required: true
+      }
+    },
     components: {
+      PostThumbnail,
       BlogItemList,
       TagList
+    },
+    methods: {
+      category(categoryId){
+        return this.findCategory(categoryId);
+      },
+      tags(tags){
+        return this.findTagList(tags);
+      }
     }
   });
 </script>
@@ -32,37 +46,14 @@
   .post {
     margin: 0 8px 22px 8px;
     float: left;
-    
-
     padding: 9px;
-
     .post-header {
       a {
         text-decoration: none;
-        .post-thumbnail {
-          width: 100%;
-          position: relative;
-          img {
-            width: 100%;
-            height: 100%;
-          }
-          &:before {
-            content: "";
-            display: block;
-            padding-top: 60%;
-          }
-          img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-          }
-        }
         p {
           margin-top: 12px;
           line-height: 130%;
-          
+          word-break: break-all;
         }
 
         &:hover {

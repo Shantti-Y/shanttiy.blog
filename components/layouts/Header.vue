@@ -1,9 +1,9 @@
 <template>
   <header>
-    <a>
+    <nuxt-link :to="`/`">
       <span id="maintitle">shanttiy blog</span>
       <span id="subtitle">やってることを説明するための練習場</span>
-    </a>
+    </nuxt-link>
   </header>
 </template>
 

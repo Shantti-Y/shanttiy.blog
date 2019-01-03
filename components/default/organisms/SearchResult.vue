@@ -1,14 +1,24 @@
 <template>
   <div class="search-result">
-    <p>'おやじ' に関する記事： 23件</p>
+    <p>'{{ topicWord }}' に関する記事： {{ total }}件</p>
   </div>
 </template>
 
 <script>
   import Vue from 'vue';
+  import { mapState } from 'vuex';
   
   export default Vue.extend({
-    components: {
+    props: {
+      topicWord: {
+        type: String,
+        required: true
+      }
+    },
+    computed: {
+      ...mapState({
+        total: state => state.posts.total
+      })
     }
   });
 </script>

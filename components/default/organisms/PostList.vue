@@ -1,9 +1,12 @@
 <template>
   <div class="post-list">
     <div class="posts">
-      <post />
+      <post
+        v-for="post in posts"
+        :key="post.id"
+        :post="post"
+      />
     </div>
-    
     <pagination />
   </div>
 </template>
@@ -14,9 +17,24 @@
   import Pagination from '@/components/default/moleculars/Pagination.vue';
   
   export default Vue.extend({
+    props: {
+      posts: {
+        type: Array,
+        required: true
+      }
+    },
     components: {
       Post,
       Pagination
+    },
+    watch: {
+      posts() {
+        const el = document.querySelector('body')
+        if(el != null){
+          el.scrollIntoView()
+        }
+        
+      }
     }
   });
 </script>

@@ -1,15 +1,34 @@
 <template>
   <ul class="blog-item-list">
-    <li class="category"><a>プログラミング</a></li>
-    <li class="published-at">2018-01-12</li>
+    <li class="category">
+      <nuxt-link :to="`/categories/${category.id}`">{{ category.name }}</nuxt-link>
+    </li>
+    <li class="published-at">{{ publishedAt }}</li>
   </ul>
 </template>
 
 <script>
   import Vue from 'vue';
+  import { mapGetters } from 'vuex';
+  import moment from 'moment';
 
   export default Vue.extend({
-    components: {
+    props: {
+      post: {
+        type: Object,
+        required: true
+      },
+    },
+    computed: {
+      ...mapGetters({
+        findCategory: 'categories/findCategory'
+      }),
+      publishedAt(){
+        return moment(this.post.date).format("YYYY-MM-DD")
+      },
+      category(){
+        return this.findCategory(this.post.categories[0]); 
+      }
     }
   });
 </script>

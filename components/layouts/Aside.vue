@@ -3,7 +3,7 @@
     <div id="profile" class="aside-content">
       <h2>Profile</h2>
       <div id="profile-header">
-        <img :src="require('@/assets/images/profile.jpg')" alt="profile">
+        <img :src="'/images/profile.jpg'" alt="profile">
         <a>Takahiro Yoshioka<br />(ShanttiY)</a>
       </div>
       <p>
@@ -32,7 +32,7 @@
         </li>
         <li>
           <a>
-            <img :src="require('@/assets/images/art1.jpg')" alt="記事1">
+            <img :src="'@/static/images/art1.jpg'" alt="記事1">
             <p>初心者がTypeScriptを始めるときに気を付ける事や事前準備について</p>
           </a>
         </li>
@@ -43,13 +43,13 @@
         </li>
         <li>
           <a>
-            <img :src="require('@/assets/images/art1.jpg')" alt="記事1">
+            <img :src="'@/static/images/art1.jpg'" alt="記事1">
             <p>初心者がTypeScriptを始めるときに気を付ける事や事前準備について</p>
           </a>
         </li>
         <li>
           <a>
-            <img :src="require('@/assets/images/art1.jpg')" alt="記事1">
+            <img :src="'@/static/images/art1.jpg'" alt="記事1">
             <p>初心者がTypeScriptを始めるときに気を付ける事や事前準備について</p>
           </a>
         </li>
