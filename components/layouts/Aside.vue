@@ -4,7 +4,7 @@
       <h2>Profile</h2>
       <div id="profile-header">
         <img :src="'/images/profile.jpg'" alt="profile">
-        <a>Takahiro Yoshioka<br />(ShanttiY)</a>
+        <p>Takahiro Yoshioka<br />(ShanttiY)</p>
       </div>
       <p>
         知識ゼロから転職して、今は東京のWeb系のベンチャーでソフトウェアプログラマをやっています。<br/>
@@ -16,6 +16,9 @@
       <h2>Search</h2>
       <div class="input-wrapper">
         <input type="text"
+          :placeholder="`キーワード検索`"
+          v-model="searchValue"
+          @keyup.enter="jumpToSearchPath"
         >
         <div class="search-btn" >
           <i class="fa fa-search" />
@@ -25,46 +28,20 @@
     <div id="latest-posts" class="aside-content">
       <h2>Latest Posts</h2>
       <ul>
-        <li>
-          <a>
-            <p class="no-thumbnail">初心者がTypeScriptを始めるときに気を付ける事や事前準備について</p>
-          </a>
-        </li>
-        <li>
-          <a>
-            <img :src="'@/static/images/art1.jpg'" alt="記事1">
-            <p>初心者がTypeScriptを始めるときに気を付ける事や事前準備について</p>
-          </a>
-        </li>
-        <li>
-          <a>
-            <p class="no-thumbnail">初心者がTypeScriptを始めるときに気を付ける事や事前準備について</p>
-          </a>
-        </li>
-        <li>
-          <a>
-            <img :src="'@/static/images/art1.jpg'" alt="記事1">
-            <p>初心者がTypeScriptを始めるときに気を付ける事や事前準備について</p>
-          </a>
-        </li>
-        <li>
-          <a>
-            <img :src="'@/static/images/art1.jpg'" alt="記事1">
-            <p>初心者がTypeScriptを始めるときに気を付ける事や事前準備について</p>
-          </a>
+        <li v-for="post in posts" :key="post.id">
+          <nuxt-link :to="`/posts/${post.id}`">
+            <img v-if="post.jetpack_featured_media_url" :src="post.jetpack_featured_media_url" :alt="post.title.rendered">
+            <p :class="!post.jetpack_featured_media_url ?`no-thumbnail` : ``">{{ post.title.rendered }}</p>
+          </nuxt-link>
         </li>
       </ul>
     </div>
     <div id="archives" class="aside-content">
-      <h2>Archives</h2>
+      <h2>Category</h2>
       <ul>
-        <li><a>2018年1月(12)</a></li>
-        <li><a>2018年1月(16)</a></li>
-        <li><a>2018年1月(19)</a></li>
-        <li><a>2018年1月(11)</a></li>
-        <li><a>2018年1月(11)</a></li>
-        <li><a>2018年1月(11)</a></li>
-        <li><a>2018年1月(12)</a></li>
+        <li v-for="category in categories" :key="category.id">
+          <nuxt-link :to="`/categories/${category.id}`">{{ category.name }}</nuxt-link>
+        </li>
       </ul>
     </div>
   </aside>
@@ -72,9 +49,31 @@
 
 <script>
   import Vue from 'vue';
+  import { mapActions } from 'vuex';
+  import { fetchPostsIndex } from '@/apis/posts';
+  import { fetchCategoriesIndex } from '@/apis/categories';
   
   export default Vue.extend({
-
+    data(){
+      return {
+        searchValue: '',
+        posts: [],
+        categories: []
+      }
+    },
+    async created() {
+      const { posts } = await fetchPostsIndex({ per_page: 5 });
+      this.posts = posts;
+      const categories = await fetchCategoriesIndex();
+      this.categories = categories;
+    },
+    methods: {
+      jumpToSearchPath() {
+        if(this.searchValue != ''){
+          this.$router.push(`/posts?q=${this.searchValue}`)
+        }
+      }
+    }
   });
 </script>
 
@@ -178,6 +177,7 @@
           overflow: hidden;
           width: 100%;
           margin: 12px 0;
+          word-break: break-all;
           
           img {
             float: left;

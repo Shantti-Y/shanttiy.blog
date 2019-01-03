@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const axios = require('axios');
 const isProd = process.env.NODE_ENV === 'production';
-const apiUrl = 'http://api.shanttiy-blog.com/wp-json/wp/v2/';
+const apiUrl = 'https://api.shanttiy-blog.com/wp-json/wp/v2/';
 const rootUrl = isProd ? 'https://gravurechannel.com' : 'http://localhost:3000';
 
 module.exports = {

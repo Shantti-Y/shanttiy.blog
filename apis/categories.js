@@ -5,7 +5,7 @@ export const fetchCategoriesIndex = async (params = {}) => {
   return data;
 };
 
-export const fetchCategoriesShow = async (categoryId) => {
+export const fetchCategoriesShow = async categoryId => {
   const { data } = await client.get(`/categories/${categoryId}`);
   return data;
 };
