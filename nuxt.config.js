@@ -42,10 +42,6 @@ module.exports = {
     }
   },
   modules: [
-    ['@nuxtjs/component-cache', {
-      max: 10000,
-      maxAge: 1000 * 60 * 60 * 3
-    }],
     ['@nuxtjs/moment', ['ja', 'zh-cn']],
     'nuxt-sass-resources-loader',
   ],
