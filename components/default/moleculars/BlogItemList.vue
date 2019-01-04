@@ -52,7 +52,7 @@
     .published-at {
       font-size: 12px;
       float: right;
-      color: $quoteblock;
+      color: $published-at;
     }
   }
 </style>

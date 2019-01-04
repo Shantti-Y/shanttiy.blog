@@ -1,7 +1,6 @@
 <template>
   <div id="post">
     <post-detail :post="post" />
-    <neighbor-post-links />
   </div>
 </template>
 
