@@ -72,11 +72,13 @@ module.exports = {
   },
   generate: {
     interval: 1000,
-    routes(){
+    routes(callback){
       axios.get(`${apiUrl}posts?per_page=100&page=1`)
         .then(res => {
-          return res.data.map(post => `/posts/${post.id}`)
+          const routes = res.data.map(post => `/posts/${post.id}`)
+          callback(numm, routes)
         })
+        .catch(callback)
     }
   }
 }
