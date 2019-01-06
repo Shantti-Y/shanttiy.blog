@@ -32,8 +32,6 @@
       const category = route.params['id'];
       const page = route.query['page'] || 1;
       await store.dispatch('posts/initializePostList', { categories: [category], page: page });
-      await store.dispatch('categories/initializeCategoryList');
-      await store.dispatch('tags/initializeTagList');
     }
   });
 </script>

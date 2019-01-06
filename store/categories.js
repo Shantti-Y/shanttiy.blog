@@ -18,7 +18,7 @@ export const actions = {
   async initializeCategoryList({ commit }) {
     const categories = await fetchCategoriesIndex();
     commit('initializeDataList', categories);
-  } 
+  }
 };
 
 export const mutations = {

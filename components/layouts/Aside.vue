@@ -49,23 +49,24 @@
 
 <script>
   import Vue from 'vue';
-  import { mapActions } from 'vuex';
+  import { mapState, mapActions } from 'vuex';
   import { fetchPostsIndex } from '@/apis/posts';
-  import { fetchCategoriesIndex } from '@/apis/categories';
   
   export default Vue.extend({
     data(){
       return {
         searchValue: '',
-        posts: [],
-        categories: []
+        posts: []
       }
+    },
+    computed: {
+      ...mapState({
+        categories: state => state.categories.dataList
+      })
     },
     async created() {
       const { posts } = await fetchPostsIndex({ per_page: 5 });
       this.posts = posts;
-      const categories = await fetchCategoriesIndex();
-      this.categories = categories;
     },
     methods: {
       jumpToSearchPath() {

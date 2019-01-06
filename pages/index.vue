@@ -21,8 +21,6 @@
     async asyncData({ store, route }) {
       const page = route.query['page'] || 1;
       await store.dispatch('posts/initializePostList', { page: page });
-      await store.dispatch('categories/initializeCategoryList');
-      await store.dispatch('tags/initializeTagList');
     }
   });
 </script>

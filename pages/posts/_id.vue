@@ -23,8 +23,6 @@
     async asyncData({ store, route }) {
       const post = route.params['id'];
       await store.dispatch('posts/initializePost', post);
-      await store.dispatch('categories/initializeCategoryList');
-      await store.dispatch('tags/initializeTagList');
     }
   });
 </script>
