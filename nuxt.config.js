@@ -73,9 +73,9 @@ module.exports = {
   generate: {
     interval: 1000,
     routes(){
-      axios.get(`${apiUrl}/wp-json/wp/v2/posts?per_page=100&page=1&_embed=1`)
+      axios.get(`${apiUrl}/wp-json/wp/v2/posts?per_page=100&page=1`)
         .then(data => {
-          return data.map(post => `posts/${post.id}`)
+          return data.map(post => `/posts/${post.id}`)
         })
     }
   }
