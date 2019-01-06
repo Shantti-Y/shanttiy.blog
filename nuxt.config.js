@@ -76,7 +76,7 @@ module.exports = {
       axios.get(`${apiUrl}posts?per_page=100&page=1`)
         .then(res => {
           const routes = res.data.map(post => `/posts/${post.id}`)
-          callback(numm, routes)
+          callback(null, routes)
         })
         .catch(callback)
     }
